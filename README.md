@@ -23,7 +23,7 @@ db.close();
 
 ## Documentation
 
-### `class Indexed`
+### `Indexed` <kbd>class</kbd>
 
 #### `open(name, version=1)` <kbd>static</kbd> <kbd>async</kbd>
 Returns a promise. This method attempts to open a database.
@@ -62,7 +62,7 @@ await Indexed.check("testdb");
 // true
 ```
 
-### `class Indexed.Database` <kbd>static</kbd>
+### `Indexed.Database` <kbd>static</kbd> <kbd>class</kbd>
 
 #### `set(key, value)` <kbd>async</kbd>
 Returns a promise. This method attempts to update or create a data inside the database.
