@@ -106,5 +106,7 @@ This method closes the database.
 > If you are deleting a database, make sure to close its connection first.
 
 ```js
-await db.close();
+db.close();
+// This method doesn't return a promise
+// so it's unnecessary to use await
 ```
