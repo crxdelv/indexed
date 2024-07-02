@@ -13,10 +13,10 @@ class Indexed {
         request.onsuccess = () => {
           const result = request.result;
           if(result != null) {
-            result.value = value.toString();
+            result.value = value;
             store.put(result);
           } else {
-            store.put({ key, value: value.toString() });
+            store.put({ key, value });
           }
           resolve();
         }
