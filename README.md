@@ -110,3 +110,14 @@ db.close();
 // This method doesn't return a promise
 // so it's unnecessary to use await
 ```
+
+### Scheme
+
+```
+Database
+└── Object Stores:
+    └── "main"
+        └── Indexes:
+            ├── "key" (keyPath) (unique)
+            └── "value"
+```
