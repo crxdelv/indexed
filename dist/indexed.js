@@ -33,7 +33,7 @@ class Indexed {
         const request = store.get(key);
         request.onsuccess = () => {
           const result = request.result;
-          resolve(result.value || value);
+          resolve(result?.value || value);
         }
         request.onerror = () => {
           reject(request.error);
