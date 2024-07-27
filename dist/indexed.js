@@ -1,10 +1,12 @@
 class Indexed {
+  static supported = "indexedDB" in window;
   static version = 1;
   static Database = class {
     constructor(db) {
       this.db = db;
     }
-    set(key, value) {
+    set(key, value, fallback=()=>{}) {
+      if(!Indexed.supported) return fallback(key, value);
       const db = this.db;
       return new Promise((resolve, reject) => {
         const trans = db.transaction(["main"], "readwrite");
@@ -25,7 +27,8 @@ class Indexed {
         }
       });
     }
-    get(key, value) {
+    get(key, value, fallback=()=>{}) {
+      if(!Indexed.supported) return fallback(key, value);
       const db = this.db;
       return new Promise((resolve, reject) => {
         const trans = db.transaction(["main"], "readonly");
@@ -40,7 +43,8 @@ class Indexed {
         }
       });
     }
-    all() {
+    all(fallback=()=>{}) {
+      if(!Indexed.supported) return fallback(key, value);
       const db = this.db;
       return new Promise((resolve, reject) => {
         const trans = db.transaction(["main"], "readonly");
@@ -59,7 +63,8 @@ class Indexed {
         }
       });
     }
-    delete(key, value) {
+    delete(key, value, fallback=()=>{}) {
+      if(!Indexed.supported) return fallback(key, value);
       const db = this.db;
       return new Promise((resolve, reject) => {
         const trans = db.transaction(["main"], "readwrite");
@@ -73,11 +78,13 @@ class Indexed {
         }
       });
     }
-    close() {
+    close(fallback=()=>{}) {
+      if(!Indexed.supported) return fallback(key, value);
       this.db.close();
     }
   }
-  static open(name, version=1) {
+  static open(name, version=1, fallback=()=>{}) {
+    if(!Indexed.supported) return fallback(key, value);
     return new Promise((resolve, reject) => {
       const request = window.indexedDB.open(name, version);
       request.onupgradeneeded = evt => {
@@ -93,7 +100,8 @@ class Indexed {
       }
     });
   }
-  static delete(name, version=1) {
+  static delete(name, version=1, fallback=()=>{}) {
+    if(!Indexed.supported) return fallback(key, value);
     return new Promise((resolve, reject) => {
       const request = window.indexedDB.deleteDatabase(name, version);
       request.onsuccess = evt => {
@@ -107,7 +115,8 @@ class Indexed {
       }
     });
   }
-  static check(name, version=1) {
+  static check(name, version=1, fallback=()=>{}) {
+    if(!Indexed.supported) return fallback(key, value);
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(name, version);
       request.onsuccess = function(event) {
@@ -133,7 +142,8 @@ class Indexed {
       }
     });
   }
-  static async all() {
+  static async all(fallback=()=>{}) {
+    if(!Indexed.supported) return fallback(key, value);
     return await window.indexedDB.databases();
   }
 }
