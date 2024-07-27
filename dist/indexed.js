@@ -1,6 +1,6 @@
 class Indexed {
-  static supported = "indexedDB" in window;
-  static version = 1;
+  static supported = "indexedDB" in global;
+  static version = "1.0.0";
   static Database = class {
     constructor(db) {
       this.db = db;
