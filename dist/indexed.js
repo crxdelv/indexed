@@ -1,5 +1,18 @@
+(function (global, factory) {
+  if(typeof module === "object" && typeof module.exports === "object") {
+    // For Node.js or CommonJS
+    module.exports = factory.call(global);
+  } else if(typeof define === "function" && define.amd) {
+    // For AMD (Asynchronous Module Definition) like RequireJS
+    define(factory);
+  } else {
+    // For browser global environment
+    global.Indexed = factory.call(global);
+  }
+}(typeof window !== "undefined" ? window : this, function() {
+
 class Indexed {
-  static supported = "indexedDB" in global;
+  static supported = "indexedDB" in this;
   static version = "1.0.0";
   static Database = class {
     constructor(db) {
@@ -147,3 +160,7 @@ class Indexed {
     return await window.indexedDB.databases();
   }
 }
+
+return Indexed;
+
+}));
