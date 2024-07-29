@@ -1,0 +1,25 @@
+{
+  "name": "@creuserr/indexed",
+  "version": "1.1.1",
+  "description": "Minimally-touched indexed database library structured after WebStorage.",
+  "main": "dist/indexed.js",
+  "scripts": {
+    "test": "node dist/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creuserr/indexed.git"
+  },
+  "keywords": [
+    "javascript",
+    "indexeddb",
+    "database",
+    "webstorage"
+  ],
+  "author": "creuserr",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/creuserr/indexed/issues"
+  },
+  "homepage": "https://github.com/creuserr/indexed#readme"
+}

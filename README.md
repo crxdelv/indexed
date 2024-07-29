@@ -17,6 +17,19 @@ db.close();
 
 ## Installation
 
+For server-side, install it with NPM:
+
+```bash
+npm install @creuserr/indexed
+```
+
+Then import it. Using `require` for example:
+```javascript
+const Indexed = require("@creuserr/indexed");
+```
+
+For client-side, import it using CDN:
+
 ```html
 <script src="https://cdn.jsdelivr.net/gh/creuserr/indexed@main/dist/indexed.min.js"></script>
 ```
@@ -111,7 +124,7 @@ db.close();
 // so it's unnecessary to use await
 ```
 
-### Scheme
+## Scheme
 
 ```
 Database
@@ -122,4 +135,99 @@ Database
             └── "value"
 ```
 
-<img src="https://komarev.com/ghpvc/?username=creuserr" alt="" width="0"></img>
+## Fallbacks <kbd>v1.1.0</kbd>
+
+Fallbacks are objects containing functions that will be triggered when the enviromment does not support indexed database.
+
+By default, you can statically use Indexed methods. However, if you want to use fallbacks, you need to construct a new instance.
+
+```javascript
+const index = new Indexed();
+```
+
+Now, define fallback. This should be an object. Here is a template:
+
+```javascript
+index.fallback = {
+  async all() {
+    // ...
+    return [{
+      name: String,
+      version: Number
+    }, ...];
+  },
+  async check(db) {
+    // ...
+    return Boolean
+  },
+  async delete(db, version) {
+    // ...
+  },
+  open: {
+    async set(db, key, value) {
+      // ...
+    },
+    async get(db, key, default_value) {
+      // ...
+    },
+    async delete(db, key) {
+      // ...
+    },
+    async all(db) {
+      // ...
+      return Object
+    }
+  }
+}
+```
+
+> [!TIP]
+> For consistent use, you should make the fallback functions as asynchronous.
+> Since Indexed methods are asynchronous, fallbacks should also be asynchronous to prevent errors when using `then` and `catch` methods.
+
+### Fallback for web storages
+
+Indexed has a static function where you can generate a fallback object for web storages (localStorage and sessionStorage).
+
+```javascript
+const fallback = Indexed.fallbackForWebStorage(window.localStorage);
+const index = new Indexed();
+index.fallback = fallback;
+// ...
+```
+
+### Fallback for objects
+
+Indexed has a static function where you can generate a fallback object for objects.
+
+```javascript
+const database = {};
+const getter = key => {
+  return database[key];
+}
+const setter = (key, value) => {
+  database[key] = value;
+}
+
+const fallback = Indexed.fallbackForObject(getter, setter);
+const index = new Indexed();
+index.fallback = fallback;
+// ...
+```
+
+It follows this structure:
+
+```javascript
+{
+  database_name: {
+    key: value,
+    key_2: value_2
+    // ...
+  },
+  database_name_2: {
+    key: value,
+    key_2: value_2
+    // ...
+  }
+}
+```
